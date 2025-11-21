@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -229,8 +229,8 @@ public class ArbolBinario extends javax.swing.JFrame {
 
     // ======= CREAR ÁRBOL =======
     public void crearArbol() {
-        String dato = JOptionPane.showInputDialog("Ingrese el dato de la raíz:");
-        if (dato == null || dato.isEmpty()) return;
+        String dato = pedirInputValido("Ingrese el dato de la raíz:");
+        if (dato == null) return;
         raiz = new Nodo(dato, null, null);
         arbol.repaint();
         crearSubarbol(raiz);
@@ -248,10 +248,10 @@ public class ArbolBinario extends javax.swing.JFrame {
         );
 
         if (respIzq == JOptionPane.YES_OPTION) {
-            String datoIzq = JOptionPane.showInputDialog(
+            String datoIzq = pedirInputValido(
                     "Ingrese el dato del hijo izquierdo de " + nodo.getDato() + ":"
             );
-            if (datoIzq != null && !datoIzq.isEmpty()) {
+            if (datoIzq != null) {
                 nodo.setIzq(new Nodo(datoIzq, null, null));
                 arbol.repaint();
                 crearSubarbol(nodo.getIzq());
@@ -267,10 +267,10 @@ public class ArbolBinario extends javax.swing.JFrame {
         );
 
         if (respDer == JOptionPane.YES_OPTION) {
-            String datoDer = JOptionPane.showInputDialog(
+            String datoDer = pedirInputValido(
                     "Ingrese el dato del hijo derecho de " + nodo.getDato() + ":"
             );
-            if (datoDer != null && !datoDer.isEmpty()) {
+            if (datoDer != null) {
                 nodo.setDer(new Nodo(datoDer, null, null));
                 arbol.repaint();
                 crearSubarbol(nodo.getDer());
@@ -278,6 +278,18 @@ public class ArbolBinario extends javax.swing.JFrame {
         }
         arbol.repaint();
         jScrollPane2.revalidate();
+    }
+
+    private String pedirInputValido(String mensaje) {
+        while (true) {
+            String dato = JOptionPane.showInputDialog(mensaje);
+            if (dato == null) return null; // Cancelado
+            if (dato.matches("^[A-Z]+$")) {
+                return dato;
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: Solo se permiten letras mayúsculas (A-Z).", "Entrada inválida", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     // ======= RECORRIDOS =======
